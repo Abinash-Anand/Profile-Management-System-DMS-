@@ -14,20 +14,23 @@ router.post('/submitForm',async(req, res)=>{
     }
 })
 //Read User By USER ID Route- GET request
-router.get("/user/:id",async (req,res)=>{
-    try {
-        const id = req.params.id
-        const findOneUser = await User.findById(id)
-        if(!findOneUser){
-            throw new Error("No User not found with that ID")
-        }
-        res.status(200).send(findOneUser)
-    } catch (error) {
-       res.status(400).send(error) 
-    }
-  
-})
+router.get("/user/?query", async (req, res) => {
+  try {
+    const query = req.params.query;
 
+    // Use a case-insensitive comparison for an exact match on the name field
+    const user = await User.findOne({ name:query});
+
+    if (!user) {
+      throw new Error("No user found with that name");
+    }
+
+    res.status(200).send(user);
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(400).send("Error fetching user"); // Send a generic error message to the client
+  }
+});
 //Read All USERS Route- GET request
 
 router.get("/user", async(req,res)=>{

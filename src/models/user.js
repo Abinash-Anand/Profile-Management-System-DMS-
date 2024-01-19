@@ -45,6 +45,8 @@ const userSchema = mongoose.Schema({
         }
     } 
     }
+},{
+    timestamps:true
 })
 
 //Hashing the password
