@@ -8,29 +8,27 @@ router.post('/submitForm',async(req, res)=>{
         console.log(req.body);
         const newUser = new User(req.body)
         await newUser.save()
-        res.send(newUser);
+        // res.send(newUser)
+        
     } catch (error) {
      res.status(404).send(error)   
     }
 })
 //Read User By USER ID Route- GET request
-router.get("/user/?query", async (req, res) => {
-  try {
-    const query = req.params.query;
+router.get("/user/:query", async (req, res) => {
+    try {
+        const user = await User.findOne({ username: { $regex: new RegExp(req.params.query, 'i') } });
+        if (!user) {
+            throw new Error("No user found with that name");
+        }
 
-    // Use a case-insensitive comparison for an exact match on the name field
-    const user = await User.findOne({ name:query});
-
-    if (!user) {
-      throw new Error("No user found with that name");
+        res.status(200).send(user);
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(400).send(error.message);
     }
-
-    res.status(200).send(user);
-  } catch (error) {
-    console.error('Error:', error.message);
-    res.status(400).send("Error fetching user"); // Send a generic error message to the client
-  }
 });
+
 //Read All USERS Route- GET request
 
 router.get("/user", async(req,res)=>{
@@ -46,7 +44,7 @@ router.get("/user", async(req,res)=>{
     }
 })
 //Update USER  Route- PATCH request
-router.patch("/user/:id",async(req,res)=>{
+router.patch("/user/:query",async(req,res)=>{
     const updates = Object.keys(req.body)
     const allowedUpdates=["username","userProfile","email","phone","password"]
     const isValidOperation = updates.every((upData)=>allowedUpdates.includes(upData))
@@ -54,7 +52,7 @@ router.patch("/user/:id",async(req,res)=>{
         return res.status(404).send("Invalid Update!")
     }
       try {
-       const user = await User.findById(req.params.id);
+       const user = await User.findOne({username:req.params.query});
        if(!user){
         return res.status(404).send()
        }
