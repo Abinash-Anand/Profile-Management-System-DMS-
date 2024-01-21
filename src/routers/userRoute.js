@@ -98,7 +98,7 @@ router.patch("/user/:query",async(req,res)=>{
 })
 
 //Delete USER Route- DEL request
-router.delete("/user",async(req,res)=>{
+router.delete("/user/:id",async(req,res)=>{
     try {
         const user =await User.findOneAndDelete(req.body)
         res.status(200).send(user)
