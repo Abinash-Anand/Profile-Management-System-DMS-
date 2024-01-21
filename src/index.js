@@ -1,4 +1,5 @@
 const express = require("express")
+const cors = require('cors')
 const validator = require("validator")
 const User = require("./models/user")
 const bodyParser = require('body-parser');
@@ -16,6 +17,9 @@ const publicDirPath = path.join(__dirname, "../public")
 console.log(viewsPath);
 console.log(partialsDirPath);
 //Middlewares
+app.use(cors({
+    origin: "*"
+}))
 app.use(express.static(publicDirPath))
 app.set('view engine', 'hbs')
 app.set('views', viewsPath);

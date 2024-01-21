@@ -3,26 +3,38 @@ const User = require("../models/user")
 const router = new express.Router();
 
 //Create a USER Route- POST request 
-router.post('/submitForm',async(req, res)=>{
+router.post('/submitForm', async (req, res) => {
     try {
         console.log(req.body);
-        const newUser = new User(req.body)
-        await newUser.save()
-        // res.send(newUser)
+        const newUser = new User(req.body);
+        await newUser.save();
         
+        // Send a success response or any additional logic here
+        res.status(201).send(newUser);
     } catch (error) {
-     res.status(404).send(error)   
+        res.status(500).send(error.message);
     }
-})
-//Read User By USER ID Route- GET request
-router.get("/user/:query", async (req, res) => {
+});
+
+// Create User Route - POST request
+router.post("/submitForm", async (req, res) => {
     try {
-        const user = await User.findOne({ username: { $regex: new RegExp(req.params.query, 'i') } });
-        if (!user) {
-            throw new Error("No user found with that name");
+        // Check if the username or email already exists
+        const existingUser = await User.findOne({
+            $or: [{ username: req.body.username }, { email: req.body.email }]
+        });
+
+        if (existingUser) {
+            throw new Error("Username or email already in use");
         }
 
-        res.status(200).send(user);
+        // Create a new user
+        const newUser = new User(req.body);
+
+        // Save the new user to the database
+        await newUser.save();
+
+        res.status(201).send(newUser);
     } catch (error) {
         console.error('Error:', error.message);
         res.status(400).send(error.message);
