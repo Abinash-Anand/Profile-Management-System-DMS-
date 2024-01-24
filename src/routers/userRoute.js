@@ -41,16 +41,29 @@ router.post("/submitForm", async (req, res) => {
     }
 });
 
-// SEARCHING A USER BASED ON {USERNAME, USERPROFILE, EMAIL & PHONE}
-router.get("/user/?query", async (req, res) => {
+// SEARCHING A USER BASED ON MULTIPLE CRITERIA
+router.post("/user/search", async (req, res) => {
     try {
-        const findUser = User.findOne([{ "username":req.params.query }, { "userProfile":req.params.query }, { "email":req.params.query }])
+        const { username, userProfile, email, phone } = req.body;
+
+        const findUser = await User.findOne({
+            $or: [
+                { username },
+                { userProfile },
+                { email },
+                { phone }
+            ]
+        });
+        if (!findUser) {
+            throw new Error("User not found")
+        }
         console.log(findUser);
-        res.send(findUser)
+        res.status(200).send(findUser);
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send(error);
     }
-})
+});
+
 
 
 //Read All USERS Route- GET request

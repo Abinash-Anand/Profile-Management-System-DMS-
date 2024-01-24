@@ -21,10 +21,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const blurBackground = document.querySelector(".background-blur")
     const updateAlert = document.querySelector("#update_Alert")
     const errorAlert = document.querySelector("#Error_Alert")
+    const searchElement = document.querySelector("#search")
+    const customSelect = document.querySelector('.custom-select')
+    //------------------UserProfile and search---------------------------------------
+    let customProperty = '';
+    const card = document.querySelector('.card')
+    const cardUserProfile = document.querySelector(".card-title")
+    const cardUsername = document.querySelector('#cardUserName')
+    const cardEmail = document.querySelector('#cardEmail')
+    const cardPhone = document.querySelector("#cardPhone")
+    const cardBio = document.querySelector(".card-text")
+    const cardHashtags = document.querySelector(".hashtag")
+
     // img.src = infinityLoopAnimation
     // img.backgroundColor = "none"
-    
-
+// console.log(customSelect[1].value);
 
     
     //==============================================  All Event Listeners  =========================================
@@ -44,6 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
     displayTable.addEventListener('click', function () {
         img.src = infinityLoopAnimation
         loadingAnimation.style.display = 'block'
+        card.style.display = 'none'
+
+        
         fetchUsers();
   
         
@@ -73,11 +87,35 @@ document.addEventListener("DOMContentLoaded", function () {
         updateData(updateJsonObject, userId);
     });
 
-    //===============MODAL WINDOW EVENT============
-    // updateForm.addEventListener('onkeypress',function(e){
-    //     console.log(e);
-    // })
-    //creating dynamic html element and populating the table
+
+   
+    //===============Search Bar EVENT LISTENER======================================
+
+customSelect.addEventListener('change', customSelectData)
+    
+function customSelectData(e) {
+        console.log(e.target.value);
+        customProperty = e.target.value;
+        console.log(customProperty);
+}
+
+    searchElement.addEventListener('submit', searchData )
+
+    function searchData(e) {
+          e.preventDefault();
+        const searchUserValue = document.querySelector("#search-user").value
+        searchElement.setAttribute("searchBy", customProperty)
+
+        const jsonData = {
+            [ searchElement.getAttribute("searchBy")] :searchUserValue
+        }
+        console.log(jsonData);
+        loadingAnimation.style.display='block'
+        table.style.display='none'
+        searchUser(jsonData)
+        
+    }
+    //----------------------------------creating dynamic html element and populating the table-------------------------------------
 
     function populateTable(userData) {
         const tableBody = document.querySelector('#userTable tbody');
@@ -190,15 +228,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(() => {
                  
                     loadingAnimation.style.display = "none"
+                    table.style.display=''
                     populateTable(response.users)
-              
-               
                 }, 500);
-           
-              
-            
-
-           
             
             } catch (error) {
                 console.log(this.status)
@@ -326,6 +358,55 @@ function updateData(updateJsonObject,id) {
     xhr.send(JSON.stringify(updateJsonObject));
 }
 
+//===================================================== Search Users==========================================================
+   
+//     {cardUserProfile,
+//         cardUsername,
+//         cardEmail,
+//         cardPhone,
+//         cardBio,
+//         cardHashtags
+// }
+    
+     function CreateUserProfile(userData) {
+         if (userData === undefined) {
+            throw new Error("undefined Parameter value")
+         }
+             cardUserProfile.innerHTML ="👤"+ userData.userProfile
+             cardUsername.innerHTML = "🆔 "+userData.username
+             cardEmail.innerHTML = "📧 "+userData.email
+             cardPhone.innerHTML = "📞 "+userData.phone
+             cardBio.innerHTML = "🌟 Exploring life's adventures one post at a time."
+             cardHashtags.innerHTML = "<strong>#</strong>Traveler <strong>#</strong>Photographer <strong>#</strong>Adventurer"
+             card.style.display='block'
+             
+    }
+    
+    
+    
+    
+    function searchUser(jsonData) {
+        const xhr =new XMLHttpRequest();
+        xhr.open("POST", `${url}/user/search`, true);
+        xhr.setRequestHeader('Content-Type', "application/json");
+        xhr.onload = async function () {
+                try {
+                    const response = JSON.parse(this.responseText);
+                     setTimeout(() => {
+                         loadingAnimation.style.display = "none"
+                         CreateUserProfile(response)
+                         
+                     }, 500);
+           
+                } catch (error) {
+                    console.error(error);
+                }
+        }
+        
+      
+        xhr.send(JSON.stringify(jsonData))
+}
+    
 //-----------------------------------DOM-CONTENT-LOADER-END--------------------------------------------------------------------
 //IMPLEMENTING PAGINATION
 function pageCount(object){
