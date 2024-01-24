@@ -43,7 +43,7 @@ router.post("/submitForm", async (req, res) => {
 
 //Read All USERS Route- GET request
 
-const ITEMS_PER_PAGE = 8; // You can adjust this value based on your preference
+const ITEMS_PER_PAGE = 20; // You can adjust this value based on your preference
 
 router.get("/user", async (req, res) => {
     try {
@@ -77,7 +77,7 @@ router.get("/user", async (req, res) => {
 });
 
 //Update USER  Route- PATCH request
-router.patch("/user/:query",async(req,res)=>{
+router.patch("/user/:id",async(req,res)=>{
     const updates = Object.keys(req.body)
     const allowedUpdates=["username","userProfile","email","phone","password"]
     const isValidOperation = updates.every((upData)=>allowedUpdates.includes(upData))
@@ -85,16 +85,20 @@ router.patch("/user/:query",async(req,res)=>{
         return res.status(404).send("Invalid Update!")
     }
       try {
-       const user = await User.findOne({username:req.params.query});
+        console.log(User);
+        console.log(req.params);
+        const id = req.params.id
+        const user = await User.findById(id);
+        console.log(user);
        if(!user){
         return res.status(404).send()
        }
         updates.forEach((update)=>user[update] = req.body[update])
         await user.save()
-        res.status(200).send(user);
+        res.status(200).send({ user});
   
       } catch (error) {
-        res.status(400).send(error)
+        res.send(error)
       }
 })
 
