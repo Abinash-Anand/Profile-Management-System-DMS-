@@ -1,9 +1,134 @@
 body {
-    margin:2% 20%;
-    text-align: center;
-    background-color: #21212196;
-   }
-  img{
-    width: 5em;
-  }
-  
+    /* background: linear-gradient(0.25turn, #d0d4d6, #aaaab5, #5a1c5f); */
+        background-color: rgba(14, 12, 20, 0.952);
+    }
+    
+    .form-parent-container {
+        margin-top: 20px;
+    }
+    
+    .form-container {
+        background: linear-gradient(#302e2e, #262427);
+        border-radius: 10px;
+        color: white;
+    }
+    
+    h1 {
+        padding: 5%;
+        text-align: center;
+        font-weight: bolder;
+            /* font-size: 2rem; */
+        }
+        
+        p {
+            text-align: center;
+            color: rgb(220, 218, 218);
+        }
+        
+        .alert {
+            display: none;
+            animation: topDownSuccessAnimation 0.6s ease-in;
+            background-color: rgb(53, 197, 93);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .loading-animation {
+            display: none;
+            position: absolute;
+            left: 53%;
+            top: 35%;
+            z-index: 1;
+        
+        }
+        
+        /* Modal styles */
+        .modal_component_update {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1100;
+            max-width: 400px;
+            width: 100%;
+            animation: topDownSuccessAnimation 0.3s ease-in;
+        }
+        
+        /* Form styles */
+        #updateForm {
+            
+            text-align: center;
+        }
+        
+        #updateForm label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        #updateForm input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        
+        #updateForm button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* Optional: Add transition for a smooth appearance */
+        .modal_component_update {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        /* Show modal when it's displayed */
+        .modal_component_update.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        .background-blur{
+            /* background-color: #ffffff; */
+        display: none;
+        backdrop-filter: blur(10px);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0%;
+        animation: topDownSuccessAnimation 0.3s ease-in;
+        /* border: 10px solid white; */
+        }
+      
+        
+        
+        
+
+        
+@keyframes loadingAnimation {
+0% {
+        transform: translate(-100px, 100px);
+    }
+}
+        
+@keyframes topDownSuccessAnimation {
+0% {
+    opacity: 0;
+    transform: translateY(-100px);
+    }
+50% {
+    opacity: 0.5;
+    }
+100% {
+     opacity: 1;
+    }
+    }

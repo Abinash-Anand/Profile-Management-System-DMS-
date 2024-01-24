@@ -1,5 +1,5 @@
-<table id="userTable" class="table table-striped">
-  <thead>
+<table id="userTable" class="table  table-striped">
+  <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
       <th scope="col">Username</th>
@@ -10,5 +10,12 @@
     </tr>
   </thead>
   <tbody>
+    <div id="danger_Alert" class="alert alert-danger" role="alert">
+      User Deleted!
+    </div>
+    <div class="loading-animation">
+      <img src='' alt="">
+    </div>
   </tbody>
 </table>
+{{>modalForm}}

@@ -43,7 +43,7 @@ router.post("/submitForm", async (req, res) => {
 
 //Read All USERS Route- GET request
 
-const ITEMS_PER_PAGE = 20; // You can adjust this value based on your preference
+const ITEMS_PER_PAGE = 5; // You can adjust this value based on your preference
 
 router.get("/user", async (req, res) => {
     try {

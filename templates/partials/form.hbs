@@ -1,0 +1,51 @@
+<div class="  form-parent-container ">
+        <div class="container">
+                <div class="row">
+                        <div class="col-4 form-container">
+                                <h1>Form Validator</h1>
+                                <p>Please fill in this form to create an Account</p>
+                                <form id="form" class="row  g-3">
+                                        <div class="col-md-6 px-3">
+                                                <label for="username" class="form-label">username</label>
+                                                <input type="text" class="form-control " id="username"
+                                                        placeholder="Username" name="username" required="true">
+                                        </div>
+                                        <div class="col-md-6 px-3">
+                                                <label for="userProfile" class="form-label">UserProfile</label>
+                                                <input type="text" class="form-control " id="userProfile"
+                                                        placeholder="UserProfile" name="userProfile" required="true">
+                                        </div>
+                                        <div class="col-12 px-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control " id="email" placeholder="Email"
+                                                        name="email" required="true">
+                                        </div>
+                                        <div class="col-12 px-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control " id="password"
+                                                        placeholder="Password" name="password" required="true">
+                                        </div>
+                                        <div class="col-12 px-3">
+                                                <label for="phone" class="form-label">Phone No.</label>
+                                                <input type="text" class="form-control " id="phone" placeholder="Phone"
+                                                        name="phone" required="true">
+                                        </div>
+                                        <!-- Submit Button -->
+                                        <button id="submitBtn" type="submit"
+                                                class="btn btn-lg col-9 btn-outline-primary mt-5 mb-3 mx-5 ">Submit</button>
+
+                                </form>
+                                <div id="success_Alert" class="alert alert-success" role="alert">
+                                        Success!, New User Created
+                                </div>
+
+                        </div>
+                        <div class="col-8">
+                                <div class="container">
+                                        {{>search}}
+                                        {{>table}}
+                                </div>
+
+                        </div>
+                </div>
+        </div>
