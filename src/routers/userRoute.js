@@ -43,7 +43,7 @@ router.post("/submitForm", async (req, res) => {
 
 //Read All USERS Route- GET request
 
-const ITEMS_PER_PAGE = 5; // You can adjust this value based on your preference
+const ITEMS_PER_PAGE = 10; // You can adjust this value based on your preference
 
 router.get("/user", async (req, res) => {
     try {
@@ -105,7 +105,8 @@ router.patch("/user/:id",async(req,res)=>{
 //Delete USER Route- DEL request
 router.delete("/user/:id",async(req,res)=>{
     try {
-        const user =await User.findOneAndDelete(req.body)
+        const user = await User.findByIdAndDelete(req.params.id)
+        console.log(req.params.id);
         res.status(200).send(user)
     } catch (error) {
         res.status(400).send(error)

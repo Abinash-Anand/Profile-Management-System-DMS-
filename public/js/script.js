@@ -6,15 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("#form")
     const submitButton = document.querySelector("#submitBtn")
     const displayTable = document.querySelector("#user-table")
-    const updateForm =  document.querySelector("#updateForm")
+    const updateForm = document.querySelector("#updateForm")
     const table = document.querySelector("tbody")
     const modalForm = document.querySelector(".modal_component_update")
     // const updateUser = document.querySelectorAll(".update")
     const img = document.querySelector('img')
-    const infinityLoopAnimation =  "/animation/Infinity-loop.svg"
+    const infinityLoopAnimation = "/animation/Infinity-loop.svg"
     // console.log(infinityLoopAnimation);
     // console.log(`${url}/submitForm`);
-    let totalPages 
+    let totalPages
     let currentPage
     const successAlert = document.querySelector("#success_Alert")
     const loadingAnimation = document.querySelector(".loading-animation")
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", formSubmitEvent);
     
     //reusable functions
-    function formSubmitEvent(event){
+    function formSubmitEvent(event) {
         event.preventDefault();
         // console.log("Submit button clicked");
         createUser()
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     //2nd event listener {DISPLAYING THE TABLE}
-    displayTable.addEventListener('click',function(){
+    displayTable.addEventListener('click', function () {
         img.src = infinityLoopAnimation
-        loadingAnimation.style.display ='block'
+        loadingAnimation.style.display = 'block'
         fetchUsers();
   
         
@@ -56,204 +56,207 @@ document.addEventListener("DOMContentLoaded", function () {
         blurBackground.style.display = 'none'
        
         const u_name = document.querySelector('#Username').value
-        const u_profile =document.querySelector("#UserProfile").value
+        const u_profile = document.querySelector("#UserProfile").value
         const e_mail = document.querySelector("#Email").value
         const pass_word = document.querySelector("#Password").value
         const phone_no = document.querySelector("#Phone").value
       
         const updateJsonObject = {
-            username:u_name,
+            username: u_name,
             userProfile: u_profile,
-            email:e_mail,
-            password:pass_word,
-            phone:phone_no
+            email: e_mail,
+            password: pass_word,
+            phone: phone_no
         }
         const userId = document.getElementById("userId").value;
         // console.log(userId);
-        updateData(updateJsonObject,userId);
+        updateData(updateJsonObject, userId);
     });
 
-//===============MODAL WINDOW EVENT============
-// updateForm.addEventListener('onkeypress',function(e){
-//     console.log(e);
-// })
-//creating dynamic html element and populating the table
+    //===============MODAL WINDOW EVENT============
+    // updateForm.addEventListener('onkeypress',function(e){
+    //     console.log(e);
+    // })
+    //creating dynamic html element and populating the table
 
-function populateTable(userData) {
-    const tableBody = document.querySelector('#userTable tbody');
+    function populateTable(userData) {
+        const tableBody = document.querySelector('#userTable tbody');
     
-    // Clear existing rows
-    tableBody.innerHTML = '';
-    let rowNumber = 1;
-    // Populate the table with the received data
+        // Clear existing rows
+        tableBody.innerHTML = '';
+        let rowNumber = 1;
+        // Populate the table with the received data
    
-    userData.forEach(user => {  
+        userData.forEach(user => {
         
-        const row = tableBody.insertRow();
-        const cell1 = row.insertCell(0);
-        const cell2 = row.insertCell(1);
-        const cell3 = row.insertCell(2);
-        const cell4 = row.insertCell(3);
-        const cell5 = row.insertCell(4);
-        const cell6 = row.insertCell(5);
-        const cell7 = row.insertCell(6);
+            const row = tableBody.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            const cell5 = row.insertCell(4);
+            const cell6 = row.insertCell(5);
+            const cell7 = row.insertCell(6);
 
-        //defining classes
-        row.id = 'row-'+rowNumber
+            //defining classes
+            row.id = 'row-' + rowNumber
         
-        cell1.textContent = rowNumber
-        cell2.textContent = user.username;
-        cell3.textContent = user.userProfile;
-        cell4.textContent = user.email;
-        cell5.textContent = user.phone;
-        cell6.innerHTML = "Delete"
-        cell6.className = "btn btn-danger m-2 delete"
-        cell6.id = "del" + rowNumber;
-        cell6.setAttribute('user-id', user._id);
+            cell1.textContent = rowNumber
+            cell2.textContent = user.username;
+            cell3.textContent = user.userProfile;
+            cell4.textContent = user.email;
+            cell5.textContent = user.phone;
+            cell6.innerHTML = "Delete"
+            cell6.className = "btn btn-danger m-2 delete"
+            cell6.id = "del" + rowNumber;
+            cell6.setAttribute('user-id', user._id);
         
-        // console.log(cell6);
-        cell7.innerHTML = "Update"
-        cell7.className = "btn btn-success m-2 update"
-        cell7.id = "update"+rowNumber
-        cell7.setAttribute("data-user-id", user._id)
-        // console.log("user id: ",cell7.getAttribute("data-user-id"));
-        // console.log(cell7);
-        rowNumber=rowNumber+1
+            // console.log(cell6);
+            cell7.innerHTML = "Update"
+            cell7.className = "btn btn-success m-2 update"
+            cell7.id = "update" + rowNumber
+            cell7.setAttribute("data-user-id", user._id)
+            // console.log("user id: ",cell7.getAttribute("data-user-id"));
+            // console.log(cell7);
+            rowNumber = rowNumber + 1
         
         
-    });
+        });
 
-    deleteElementsNodeList(tableBody)
-    updateUserData(tableBody, userData)
+        deleteElementsNodeList(tableBody)
+        updateUserData(tableBody, userData)
   
-}
-//========================================================CREATING A USER============================================================
-async function createUser(){
-    const xhr = new XMLHttpRequest();
-    //opening the object and defining the properties
-    xhr.open('POST', `${url}/submitForm`, true);
-    // Set the Content-Type header if you are sending JSON data
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    //on load state
-    xhr.onload = async function (){
-        try {
-            const response = JSON.parse(this.responseText)
-            console.log(response);
-            successAlert.style.display ='block'
-            fetchUsers();
-            setTimeout(()=>{
-                successAlert.animate = "0.3s ease-out"
-                successAlert.style.display ='none'
-                console.log(response);
-            },3000)
-        } catch (error) {
-            console.error(error)
-            
-        }
-        
     }
-    // Send the form data as JSON
-    const formData = new FormData(form);
-    console.log(formData);
-    const jsonData = {};
-    formData.forEach((value, key) => {
-        jsonData[key] = value;
+    //========================================================CREATING A USER============================================================
+    async function createUser() {
+        const xhr = new XMLHttpRequest();
+        //opening the object and defining the properties
+        xhr.open('POST', `${url}/submitForm`, true);
+        // Set the Content-Type header if you are sending JSON data
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        //on load state
+        xhr.onload = async function () {
+            try {
+                const response = JSON.parse(this.responseText)
+                console.log(response);
+                successAlert.style.display = 'block'
+                fetchUsers();
+                setTimeout(() => {
+                    successAlert.animate = "0.3s ease-out"
+                    successAlert.style.display = 'none'
+                    console.log(response);
+                }, 3000)
+            } catch (error) {
+                console.error(error)
+            
+            }
+        
+        }
+        // Send the form data as JSON
+        const formData = new FormData(form);
+        console.log(formData);
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
         
 
-    });
-    xhr.send(JSON.stringify(jsonData));
+        });
+        xhr.send(JSON.stringify(jsonData));
     
-}
-// function loadAnimate(){
-//     setTimeout(() => {
-//         loadingAnimation.style.display= "none"
-//         populateTable(response.users)
+    }
+    // function loadAnimate(){
+    //     setTimeout(() => {
+    //         loadingAnimation.style.display= "none"
+    //         populateTable(response.users)
 
-//     }, 2000);
-// }
+    //     }, 2000);
+    // }
 
-//======================================THIS FUNCTION FETCHES THE USER DATA FROM THE SERVER===============================
-function fetchUsers(){
-    const xhr = new XMLHttpRequest();
-    //opening the object and defining the properties
-    xhr.open('GET', `${url}/user`, true);
-    // Set the Content-Type header if you are sending JSON data
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    //on load state
-    xhr.onload = function (){
-        try {
+    //======================================THIS FUNCTION FETCHES THE USER DATA FROM THE SERVER===============================
+    function fetchUsers() {
+        const xhr = new XMLHttpRequest();
+        //opening the object and defining the properties
+        xhr.open('GET', `${url}/user`, true);
+        // Set the Content-Type header if you are sending JSON data
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        //on load state
+        xhr.onload = function () {
+            try {
           
-            const response = JSON.parse(this.responseText)
-            console.log(response.user);
-            pageCount(response);
-            setTimeout(() => {
+                const response = JSON.parse(this.responseText)
+                console.log(response.user);
+                pageCount(response);
+                setTimeout(() => {
                  
-                loadingAnimation.style.display= "none"
-                populateTable(response.users)
+                    loadingAnimation.style.display = "none"
+                    populateTable(response.users)
               
                
-            }, 500);
+                }, 500);
            
-            console.log("Before changePage - totalPages:", totalPages, "newPage:", newPage);
-            // changePage(newPage);
-            console.log("After changePage - totalPages:", totalPages, "newPage:", newPage);
+                console.log("Before changePage - totalPages:", totalPages, "newPage:", newPage);
+                // changePage(newPage);
+                console.log("After changePage - totalPages:", totalPages, "newPage:", newPage);
 
             
 
            
             
-        } catch (error) {
-            console.log(this.status)
-        }
+            } catch (error) {
+                console.log(this.status)
+            }
         
-    }
-    xhr.send();
-   
-}
-
-//=============================DELETE FUNCTION TO DELETE THE USER FROM THE DATABASE==================================================
-
-
-function deleteElementsNodeList(){
-    // const nodeListElements = Array.from(response)
-const deleteButton = document.querySelectorAll("tbody .delete") 
-
-    // const tRow = document.querySelectorAll("tbody .delete")
-    console.log(deleteButton);
-    deleteButton.forEach((user)=>{
-        user.addEventListener("click", function (e) {
-            
-            // console.log("clicked", e.target.id);
-            const user_id = e.target.getAttribute('user-id')
-            console.log("user id of Delete button:",e.target.id,user_id);
-            deleteUserData(user_id)
-        })
-    })
-}
-
-// THIS FUNCTION DELETES INDIVIDUAL USER FROM THE DATABASE
-function deleteUserData(id){
-    const xhr = new XMLHttpRequest();
-    xhr.open("DELETE",`${url}/user/${id}`,true);
-    xhr.onload= function(){
-        try {
-            console.log("successfully deleted the User", );
-            deleteUserAlert.style.display="block"
-            deleteUserAlert.style.backgroundColor = "#e74a4a"
-            setTimeout(() => {
-                deleteUserAlert.style.display="none"
-
-            }, 2000);
-
-            fetchUsers()
-
-        } catch (error) {
-            console.error(error);
         }
+        xhr.send();
+   
     }
-    xhr.send()
 
-}
+    //=============================DELETE FUNCTION TO DELETE THE USER FROM THE DATABASE==================================================
+
+
+    function deleteElementsNodeList(data) {
+        // const nodeListElements = Array.from(response)
+        const deleteButton = document.querySelectorAll("tbody .delete")
+
+        // const tRow = document.querySelectorAll("tbody .delete")
+        console.log(deleteButton);
+        deleteButton.forEach((user) => {
+            user.addEventListener("click", function (e) {
+            
+                // console.log("clicked", e.target.id);
+                const user_id = e.target.getAttribute('user-id')
+                console.log("user id of Delete button:", e.target.id, user_id);
+                debugger
+                deleteUserData(user_id)
+            })
+        })
+    }
+
+    // THIS FUNCTION DELETES INDIVIDUAL USER FROM THE DATABASE
+    function deleteUserData(id) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("DELETE", `${url}/user/${id}`, true);
+        xhr.onload = function () {
+            try {
+                console.log("successfully deleted the User",);
+                deleteUserAlert.style.display = "block"
+                deleteUserAlert.style.backgroundColor = "#e74a4a"
+                setTimeout(() => {
+                    deleteUserAlert.style.display = "none"
+
+                }, 2000);
+
+                fetchUsers()
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        xhr.send()
+
+    }
+    
+
 
 //=======================================UPDATING AN INDIVIDUAL USER===================================================
     function updateUserData(tableBody, response) {
