@@ -3,18 +3,18 @@ const User = require("../models/user")
 const router = new express.Router();
 
 //Create a USER Route- POST request 
-router.post('/submitForm', async (req, res) => {
-    try {
-        console.log(req.body);
-        const newUser = new User(req.body);
-        await newUser.save();
+// router.post('/submitForm', async (req, res) => {
+//     try {
+//         console.log(req.body);
+//         const newUser = new User(req.body);
+//         await newUser.save();
         
-        // Send a success response or any additional logic here
-        res.status(201).send(newUser);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-});
+//         // Send a success response or any additional logic here
+//         res.status(201).send(newUser);
+//     } catch (error) {
+//         res.status(500).send(error.message);
+//     }
+// });
 
 // Create User Route - POST request
 router.post("/submitForm", async (req, res) => {
@@ -41,9 +41,21 @@ router.post("/submitForm", async (req, res) => {
     }
 });
 
+// SEARCHING A USER BASED ON {USERNAME, USERPROFILE, EMAIL & PHONE}
+router.get("/user/?query", async (req, res) => {
+    try {
+        const findUser = User.findOne([{ "username":req.params.query }, { "userProfile":req.params.query }, { "email":req.params.query }])
+        console.log(findUser);
+        res.send(findUser)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+
 //Read All USERS Route- GET request
 
-const ITEMS_PER_PAGE = 10; // You can adjust this value based on your preference
+const ITEMS_PER_PAGE = 5; // You can adjust this value based on your preference
 
 router.get("/user", async (req, res) => {
     try {

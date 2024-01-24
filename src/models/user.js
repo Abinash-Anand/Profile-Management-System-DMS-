@@ -43,9 +43,11 @@ const userSchema = mongoose.Schema({
                 throw new Error('This password text is forbidden!')
             
         }
-    } 
+        } 
+        
     }
-})
+
+},{timestamps:true})
 
 //Hashing the password
 userSchema.pre("save", async function(next){

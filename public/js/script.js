@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     'use strict';
     console.log("Script is running");
@@ -21,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteUserAlert = document.querySelector("#danger_Alert")
     const blurBackground = document.querySelector(".background-blur")
     const updateAlert = document.querySelector("#update_Alert")
+    const errorAlert = document.querySelector("#Error_Alert")
     // img.src = infinityLoopAnimation
     // img.backgroundColor = "none"
     
@@ -49,12 +49,12 @@ document.addEventListener("DOMContentLoaded", function () {
         
 
     })
-
+ 
     //Update users
     updateForm.addEventListener("submit", function (event) {
         event.preventDefault();
         blurBackground.style.display = 'none'
-       
+      
         const u_name = document.querySelector('#Username').value
         const u_profile = document.querySelector("#UserProfile").value
         const e_mail = document.querySelector("#Email").value
@@ -147,10 +147,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(response);
                 }, 3000)
             } catch (error) {
-                console.error(error)
-            
+
+                console.error(error.status())
+                
             }
-        
+      
         }
         // Send the form data as JSON
         const formData = new FormData(form);
@@ -194,10 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
                
                 }, 500);
            
-                console.log("Before changePage - totalPages:", totalPages, "newPage:", newPage);
-                // changePage(newPage);
-                console.log("After changePage - totalPages:", totalPages, "newPage:", newPage);
-
+              
             
 
            
@@ -219,14 +217,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const deleteButton = document.querySelectorAll("tbody .delete")
 
         // const tRow = document.querySelectorAll("tbody .delete")
-        console.log(deleteButton);
+        // console.log(deleteButton);
         deleteButton.forEach((user) => {
             user.addEventListener("click", function (e) {
             
                 // console.log("clicked", e.target.id);
                 const user_id = e.target.getAttribute('user-id')
-                console.log("user id of Delete button:", e.target.id, user_id);
-                debugger
+                // console.log("user id of Delete button:", e.target.id, user_id);
+
                 deleteUserData(user_id)
             })
         })
@@ -270,9 +268,13 @@ document.addEventListener("DOMContentLoaded", function () {
             blurBackground.style.display='block'
             modalForm.style.display = 'block';
             const indexValue = e.target.id.replace("update",'') -1
-            // console.log(indexValue);
-            // console.log(userDataArray[indexValue]._id);
-            
+            document.addEventListener('keydown', function (e) {
+              
+                if (e.key === "Escape") {
+                    modalForm.style.display = "none"
+                    blurBackground.style.display='none'
+                }
+            })
             // Get the user_id from data-user-id attribute
             const userId = e.target.getAttribute("data-user-id");
             userIdInput.value = userId;
@@ -299,8 +301,8 @@ function updateData(updateJsonObject,id) {
 
     xhr.onload = function () {
         try {
-            fetchUsers()
             
+            fetchUsers()
             setTimeout(() => {
                 updateAlert.style.display = 'block'
             }, 1000);
@@ -323,29 +325,29 @@ function updateData(updateJsonObject,id) {
 
     xhr.send(JSON.stringify(updateJsonObject));
 }
-})
+
 //-----------------------------------DOM-CONTENT-LOADER-END--------------------------------------------------------------------
-//DROPDOWN MENU GENERATOR
-function modalFormGenerator(){
-const div = document.createElement('div');
-div.className = "dropdown";
-document.body.appendChild(div);
-}
-
-
-
-
-
-
 //IMPLEMENTING PAGINATION
 function pageCount(object){
     totalPages = object.totalPages;
     currentPage = object.currentPage;
-    console.log("total pages: ",totalPages,currentPage);
+    console.log("total pages: ",totalPages , " currentPage: ",currentPage);
     generatePagination(totalPages,currentPage)
 }
 
+function changePage(newPage) {
 
+    // Handle page change logic here
+    console.log("changePage Function=> newPage: ",newPage);
+    // Call the server to fetch data for the new page, e.g., fetchUsers(newPage);
+    fetchUsers(newPage)
+    // Update the currentPage and regenerate pagination
+    currentPage = newPage;
+    console.log("current page = new page", newPage);
+    generatePagination(totalPages,currentPage);
+   
+    }
+    
 function generatePagination(totalPages,currentPage) {
 
     const paginationContainer = document.getElementById('pagination');
@@ -372,17 +374,8 @@ function generatePagination(totalPages,currentPage) {
     
 }
 
-function changePage(newPage) {
 
-    // Handle page change logic here
-    console.log(newPage);
-    // Call the server to fetch data for the new page, e.g., fetchUsers(newPage);
- 
-    // Update the currentPage and regenerate pagination
-    currentPage = newPage;
-    generatePagination(totalPages,currentPage);
-   
-}
+    })
 //=================================Modal Window===============================
 // document.addEventListener("DOMContentLoaded", function () {
 //     const openModalBtn = document.getElementById("openModalBtn");
