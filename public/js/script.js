@@ -13,8 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const infinityLoopAnimation = "/animation/Infinity-loop.svg"
     // console.log(infinityLoopAnimation);
     // console.log(`${url}/submitForm`);
-    let totalPages
-    let currentPage
+    let currentPage = 1;
     const successAlert = document.querySelector("#success_Alert")
     const loadingAnimation = document.querySelector(".loading-animation")
     const deleteUserAlert = document.querySelector("#danger_Alert")
@@ -210,23 +209,64 @@ function customSelectData(e) {
 
     //     }, 2000);
     // }
+    //================================================Pagiantion==========================================
+     let newPage =1
+    //===========page next==================
 
+    function totalPages(response) {
+       Pagination(totalPageCount)
+    }
+    const nextPage = document.querySelector("#next-page")
+
+    nextPage.addEventListener('click',Pagination)
+    function Pagination(e) {
+        loadingAnimation.style.display = "block"
+        table.style.display = 'none'
+        newPage++
+        
+        fetchUsers(newPage)
+    }
+//==============================page previous=========================
+    const previousPage = document.querySelector('#previous')
+    previousPage.addEventListener('click',PaginationPrev)
+    function PaginationPrev(e) {
+    
+        loadingAnimation.style.display = "block"
+        table.style.display = 'none'
+        if (newPage != 1) {
+            console.log(newPage);
+            newPage--
+        } else {
+            console.log(newPage);
+            previousPage.disabled = true;
+            
+        }
+        
+        fetchUsers(newPage)
+    }
+   
     //======================================THIS FUNCTION FETCHES THE USER DATA FROM THE SERVER===============================
-    function fetchUsers() {
+    function fetchUsers(currentPage) {
+
         const xhr = new XMLHttpRequest();
         //opening the object and defining the properties
-        xhr.open('GET', `${url}/user`, true);
+        xhr.open('GET', `${url}/user?page=${currentPage}`, true);
         // Set the Content-Type header if you are sending JSON data
         xhr.setRequestHeader('Content-Type', 'application/json');
         //on load state
         xhr.onload = function () {
             try {
-          
+           
                 const response = JSON.parse(this.responseText)
-                console.log(response.user);
-                pageCount(response);
+                console.log(response);
+                console.log("total",response.totalPages,"current",currentPage, newPage);
+                if (response.totalPages === currentPage) {
+                    nextPage.disabled=true
+                }
+                if (newPage === previousPage) {
+                    nextPage.disabled=true
+                }
                 setTimeout(() => {
-                 
                     loadingAnimation.style.display = "none"
                     table.style.display=''
                     populateTable(response.users)
@@ -403,75 +443,12 @@ function updateData(updateJsonObject,id) {
                 }
         }
         
-      
         xhr.send(JSON.stringify(jsonData))
 }
     
+
+
+
+
+})
 //-----------------------------------DOM-CONTENT-LOADER-END--------------------------------------------------------------------
-//IMPLEMENTING PAGINATION
-function pageCount(object){
-    totalPages = object.totalPages;
-    currentPage = object.currentPage;
-    console.log("total pages: ",totalPages , " currentPage: ",currentPage);
-    generatePagination(totalPages,currentPage)
-}
-
-function changePage(newPage) {
-
-    // Handle page change logic here
-    console.log("changePage Function=> newPage: ",newPage);
-    // Call the server to fetch data for the new page, e.g., fetchUsers(newPage);
-    fetchUsers(newPage)
-    // Update the currentPage and regenerate pagination
-    currentPage = newPage;
-    console.log("current page = new page", newPage);
-    generatePagination(totalPages,currentPage);
-   
-    }
-    
-function generatePagination(totalPages,currentPage) {
-
-    const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = ''; // Clear existing pagination links
-   
-    if (totalPages > 1) {
-        // Add "Previous" link
-        paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                                            <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>
-                                        </li>`;
-
-        // Add page links
-        for (let i = 1; i <= totalPages; i++) {
-            paginationContainer.innerHTML += `<li class="page-item ${currentPage === i ? 'active' : ''}">
-                                                <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
-                                            </li>`;
-        }
-
-        // Add "Next" link
-        paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                                            <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Next</a>
-                                        </li>`;
-    }
-    
-}
-
-
-    })
-//=================================Modal Window===============================
-// document.addEventListener("DOMContentLoaded", function () {
-//     const openModalBtn = document.getElementById("openModalBtn");
-//     const closeModalBtn = document.getElementById("closeModalBtn");
-//     const modal = document.getElementById("modal");
-//     const overlay = document.getElementById("overlay");
-  
-//     openModalBtn.addEventListener("click", function () {
-//       modal.style.display = "block";
-//       overlay.style.display = "block";
-//     });
-  
-//     closeModalBtn.addEventListener("click", function () {
-//       modal.style.display = "none";
-//       overlay.style.display = "none";
-//     });
-//   });
-  

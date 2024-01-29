@@ -67,37 +67,36 @@ router.post("/user/search", async (req, res) => {
 
 
 //Read All USERS Route- GET request
-
-const ITEMS_PER_PAGE = 5; // You can adjust this value based on your preference
-
-router.get("/user", async (req, res) => {
+router.get("/user", async (req, res, next) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const pageSize = parseInt(req.query.pageSize) || ITEMS_PER_PAGE;
-
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = page * pageSize;
-
-        const totalUsers = await User.countDocuments({});
-        const totalPages = Math.ceil(totalUsers / pageSize);
-
-        const users = await User.find({})
-            .skip(startIndex)
-            .limit(pageSize);
-
-        if (!users || users.length === 0) {
-            throw new Error("Users not found");
+     
+        let { page, size } = req.query
+        if (!page) {
+            page = 1;
         }
+        if (!size) {
+            size = 5;
+        }
+   
 
-        res.status(200).json({
-            users,
-            currentPage: page,
-            totalPages,
-            totalUsers
-        });
+    // // Calculate total pages
+        const limit = parseInt(size);
+        const skip = parseInt(page - 1) * size;
+        const totalUsersCount = await User.countDocuments();
+         const totalPages = Math.ceil(totalUsersCount / limit);
+        const users = await User.find().limit(limit).skip(skip)
+        // res.send(users)
+         res.status(200).json({
+             users,
+             page,
+             size,
+             totalPages
+            
+            
+        })
         
     } catch (error) {
-        res.status(404).json({ error: error.message });
+    res.status(500).json({ error: error.message }); //  server error
     }
 });
 
