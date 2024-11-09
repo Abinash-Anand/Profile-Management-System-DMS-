@@ -1,54 +1,119 @@
-<div class="  form-parent-container ">
-        <div class="container">
-                <div class="row">
-                        <div class="col-4 form-container">
-                                <h1>Form Validator</h1>
-                                <p>Please fill in this form to create an Account</p>
-                                <form id="form" class="row  g-3">
-                                        <div class="col-md-6 px-3">
-                                                <label for="username" class="form-label">username</label>
-                                                <input type="text" class="form-control " id="username"
-                                                        placeholder="Username" name="username" required="true">
-                                        </div>
-                                        <div class="col-md-6 px-3">
-                                                <label for="userProfile" class="form-label">UserProfile</label>
-                                                <input type="text" class="form-control " id="userProfile"
-                                                        placeholder="UserProfile" name="userProfile" required="true">
-                                        </div>
-                                        <div class="col-12 px-3">
-                                                <label for="email" class="form-label">Email</label>
-                                                <input type="email" class="form-control " id="email" placeholder="Email"
-                                                        name="email" required="true">
-                                        </div>
-                                        <div class="col-12 px-3">
-                                                <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control " id="password"
-                                                        placeholder="Password" name="password" required="true">
-                                        </div>
-                                        <div class="col-12 px-3">
-                                                <label for="phone" class="form-label">Phone No.</label>
-                                                <input type="text" class="form-control " id="phone" placeholder="Phone"
-                                                        name="phone" required="true">
-                                        </div>
-                                        <!-- Submit Button -->
-                                        <button id="submitBtn" type="submit"
-                                                class="btn btn-lg col-9 btn-outline-primary mt-5 mb-3 mx-5 ">Submit</button>
+<!-- Enhanced Glass-Like Form Container -->
+<div class="form-parent-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div
+        class="col-lg-10 col-md-10 col-sm-12 form-container p-5 position-relative"
+      >
+        <h1 class="p-0">Create an Account</h1>
+        <p class="mb-4">Please fill in the form below to get started</p>
+        <form id="form" class="needs-validation" novalidate>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="username" class="form-label">Username</label>
+              <div class="input-group">
 
-                                </form>
-                                <div id="success_Alert" class="alert alert-success" role="alert">
-                                        Success!, New User Created
-                                </div>
-                                <div id="Error_Alert" class="alert alert-danger" role="alert">
-                                        Restricted!, User Already Exist!
-                                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Enter username"
+                  name="username"
+                  required
+                />
+              </div>
+              <div class="invalid-feedback">Please enter a valid username.</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="userProfile" class="form-label">User Profile</label>
+              <div class="input-group">
 
-                        </div>
-                        <div class="col-8">
-                                <div class="container">
-                                         {{>search}}
-                                        {{>table}}
-                                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userProfile"
+                  placeholder="Enter profile name"
+                  name="userProfile"
+                  required
+                />
+              </div>
+              <div class="invalid-feedback">Please enter a valid profile name.</div>
+            </div>
+          </div>
 
-                        </div>
-                </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group">
+
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Enter email address"
+                name="email"
+                required
+              />
+            </div>
+            <div class="invalid-feedback">Please enter a valid email address.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group">
+
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Enter password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="invalid-feedback">Password is required.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <div class="input-group">
+
+              <input
+                type="text"
+                class="form-control"
+                id="phone"
+                placeholder="Enter phone number"
+                name="phone"
+                required
+              />
+            </div>
+            <div class="invalid-feedback">Please enter a valid phone number.</div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid gap-2">
+            <button id="submitBtn" type="submit" class="btn btn-primary btn-lg">
+              <i class="bi bi-box-arrow-in-right me-2"></i>
+              Submit
+            </button>
+          </div>
+        </form>
+
+        <!-- Success and Error Alerts -->
+        <div
+          id="success_Alert"
+          class="alert alert-success mt-4"
+          style="display: none;"
+        >
+          Success! New user created.
         </div>
+        <div
+          id="Error_Alert"
+          class="alert alert-danger mt-4"
+          style="display: none;"
+        >
+          Restricted! User already exists.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

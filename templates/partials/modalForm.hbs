@@ -1,26 +1,64 @@
-<!-- Your modal HTML structure -->
-<div class="modal_component_update"  style="text-align: center;" id="modalForm">
-    <h2>Update User</h2>
-    <form id="updateForm">
-        <label for="Username">New Username:</label>
-        <input type="text" id="Username" name="Username">
+<div class="modal_component_update" id="modalForm">
+  <h2 class="form-title">Update User</h2>
+  <form id="updateForm" class="form-content">
+    <div class="form-group">
+      <label for="Username">New Username:</label>
+      <input
+        type="text"
+        id="Username"
+        name="Username"
+        class="form-input"
+        placeholder="Enter new username"
+      />
+    </div>
 
-        <label for="UserProfile">New User Profile:</label>
-        <input type="text" id="UserProfile" name="UserProfile">
+    <div class="form-group">
+      <label for="UserProfile">New User Profile:</label>
+      <input
+        type="text"
+        id="UserProfile"
+        name="UserProfile"
+        class="form-input"
+        placeholder="Enter new user profile"
+      />
+    </div>
 
-        <label for="Email">New Email:</label>
-        <input type="Email" id="Email" name="Email">
+    <div class="form-group">
+      <label for="Email">New Email:</label>
+      <input
+        type="email"
+        id="Email"
+        name="Email"
+        class="form-input"
+        placeholder="Enter new email"
+      />
+    </div>
 
-        <label for="Password">New Password:</label>
-        <input type="Password" id="Password" name="Password">
+    <div class="form-group">
+      <label for="Password">New Password:</label>
+      <input
+        type="password"
+        id="Password"
+        name="Password"
+        class="form-input"
+        placeholder="Enter new password"
+      />
+    </div>
 
-        <label for="Phone">New Phone:</label>
-        <input type="tel" id="Phone" name="Phone">
+    <div class="form-group">
+      <label for="Phone">New Phone:</label>
+      <input
+        type="tel"
+        id="Phone"
+        name="Phone"
+        class="form-input"
+        placeholder="Enter new phone number"
+      />
+    </div>
 
+    <!-- Hidden input to store the user ID -->
+    <input type="hidden" id="userId" name="userId" />
 
-        <!-- Hidden input to store the user ID -->
-        <input type="hidden" id="userId" name="userId">
-
-        <button type="submit">Update User</button>
-    </form>
+    <button type="submit" class="btn-submit">Update User</button>
+  </form>
 </div>

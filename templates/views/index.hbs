@@ -9,13 +9,52 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
   <link rel="stylesheet" href="/css/style.css">
+  
 </head>
 
 <body>
+ <div class="container-fluid m-0 p-0">
+    {{> header}}
+
+    <div class="row sidebar-main">
+      <!-- Sidebar Section -->
+      <div class="col-12 col-md-2 text-white d-flex flex-column align-items-center py-4 sidebar">
+        <div class="mx-2 my-3 w-100 text-center">
+          <button id="createUserBtn" class="btn btn-primary w-100">Create User</button>
+        </div>
+        <div class="mx-2 my-3 w-100 text-center">
+          <button id="showDatabaseBtn" class="btn btn-secondary w-100">Show Database</button>
+        </div>
+      </div>
+
+      <!-- Main Content Section -->
+      <div class="col-12 col-md-10 bg-light p-3 main-content">
+        <!-- Create User Section -->
+        <div class="create-user" id="createUser" style="display: none;">
+          <!-- Create User Form -->
+          {{>form}}
+        </div>
+
+        <!-- Show Database Section -->
+        <div class="show-database" id="showDatabase" style="display: block;">
+          <div class="col-12 col-sm-12">
+            <div class="container">
+              <!-- Search and Table Components -->
+              {{>search}}
+              {{>table}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
   <div id="update_Alert" class="alert alert-success" role="alert">
     Success!, User Data Updated.
   </div>
-  {{>form}}
+ 
   <div class="background-blur"></div>
 
 

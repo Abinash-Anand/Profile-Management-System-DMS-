@@ -245,6 +245,20 @@ function customSelectData(e) {
         fetchUsers(newPage)
     }
    
+
+    document.getElementById('createUserBtn').addEventListener('click', function() {
+    // Hide the show-database div and show the create-user div
+    document.getElementById('showDatabase').style.display = 'none';
+    document.getElementById('createUser').style.display = 'block';
+});
+
+document.getElementById('showDatabaseBtn').addEventListener('click', function() {
+    // Hide the create-user div and show the show-database div
+    document.getElementById('createUser').style.display = 'none';
+    document.getElementById('showDatabase').style.display = 'block';
+});
+
+
     //======================================THIS FUNCTION FETCHES THE USER DATA FROM THE SERVER===============================
     function fetchUsers(currentPage) {
 
