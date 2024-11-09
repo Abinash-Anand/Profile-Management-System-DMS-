@@ -4,11 +4,10 @@ const validator = require("validator")
 const User = require("./models/user")
 const bodyParser = require('body-parser');
 require("./db/mongoose")
+require('dotenv').config()
 const hbs =require('hbs')
 const path = require("path")
 const userRoute = require('./routers/userRoute')
-
-
 const app = express()
 const port = process.env.PORT || 5000;
 const viewsPath  =path.join(__dirname,"../templates/views")
