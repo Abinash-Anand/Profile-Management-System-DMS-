@@ -1,18 +1,19 @@
 const express = require("express")
 const cors = require('cors')
 const validator = require("validator")
-const User = require("./models/user")
+const User = require("./src/models/user")
 const bodyParser = require('body-parser');
-require("./db/mongoose")
+
+require("./src/db/mongoose")
 require('dotenv').config()
 const hbs =require('hbs')
 const path = require("path")
-const userRoute = require('./routers/userRoute')
+const userRoute = require('./src/routers/userRoute')
 const app = express()
 const port = process.env.PORT || 5000;
-const viewsPath  =path.join(__dirname,"../templates/views")
-const partialsDirPath = path.join(__dirname,"../templates/partials")
-const publicDirPath = path.join(__dirname, "../public")
+const viewsPath  =path.join(__dirname,"./templates/views")
+const partialsDirPath = path.join(__dirname,"./templates/partials")
+const publicDirPath = path.join(__dirname, "./public")
 console.log(viewsPath);
 console.log(partialsDirPath);
 //Middlewares
