@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     'use strict';
     console.log("Script is running");
-    const url = "http://localhost:5000";
+    const url = "https://user-management-service-f59k.onrender.com";
     const form = document.querySelector("#form")
     const submitButton = document.querySelector("#submitBtn")
     const displayTable = document.querySelector("#user-table")
